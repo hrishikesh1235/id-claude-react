@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import CalProvider from "@/components/CalProvider";
 import CookieBanner from "@/components/CookieBanner";
 import Footer from "@/components/Footer";
@@ -36,6 +37,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <CookieBanner />
+        <Analytics />
       </body>
     </html>
   );
