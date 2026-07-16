@@ -16,17 +16,20 @@ export default function Reveal<C extends ElementType = "div">({
   as,
   delay = 0,
   className = "",
+  style,
   children,
   ...rest
 }: RevealProps<C>) {
   const Tag = (as || "div") as ElementType;
   const ref = useRef<HTMLElement | null>(null);
 
-  // Content is visible by default (see .reveal in globals.css) so it's never
-  // hidden before JS hydrates. This effect only ever HIDES-then-reveals
-  // elements that are genuinely below the fold at mount — anything already
-  // on screen is left alone, avoiding both a flash of invisible content and
-  // a flash of "wrong" state once JS catches up.
+  // The entrance animation is a CSS `@keyframes` (see .reveal in globals.css)
+  // that autoplays on paint — no JS/hydration dependency, so it never gates
+  // FCP/LCP the way a JS-triggered class-toggle would. This effect's only
+  // job is to PAUSE that animation for elements genuinely below the fold
+  // (before the browser paints it running, via useLayoutEffect) and resume
+  // it once scrolled into view, so the scroll-reveal effect is preserved
+  // for below-fold content without holding up above-fold content at all.
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -35,15 +38,15 @@ export default function Reveal<C extends ElementType = "div">({
 
     const rect = el.getBoundingClientRect();
     const alreadyOnScreen = rect.top < window.innerHeight * 0.92 && rect.bottom > 0;
-    if (alreadyOnScreen) return;
+    if (alreadyOnScreen) return; // let the auto-playing animation run as-is
 
-    el.classList.add("reveal-pending");
+    el.style.animationPlayState = "paused";
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
           io.unobserve(el);
-          el.classList.remove("reveal-pending");
+          el.style.animationPlayState = "running";
         });
       },
       { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
@@ -56,7 +59,7 @@ export default function Reveal<C extends ElementType = "div">({
     <Tag
       ref={ref}
       className={`reveal ${className}`}
-      style={delay ? { transitionDelay: `${delay}ms` } : undefined}
+      style={{ animationDelay: `${delay}ms`, ...style }}
       {...rest}
     >
       {children}

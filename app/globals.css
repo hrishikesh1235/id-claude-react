@@ -291,33 +291,36 @@ details[open] summary .details-icon {
 }
 
 /*
- * Visible by default — this is what server-rendered HTML and pre-hydration
- * paint show, so content is never hidden waiting on JS. `.reveal-pending` is
- * only ever added by Reveal.tsx's own effect, and only for elements that
- * were genuinely below the fold at mount.
+ * A CSS `@keyframes` animation, not a JS-triggered transition — it autoplays
+ * the instant the browser paints this element, with zero dependency on JS
+ * hydration, so above-the-fold content still gets the fade/rise/blur
+ * entrance choreography without ever gating FCP/LCP behind script execution.
+ * Reveal.tsx's effect only pauses/resumes it (via animation-play-state) for
+ * elements that are genuinely below the fold, to preserve the scroll-reveal
+ * effect there.
  */
-.reveal {
-  opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
-  transition:
-    opacity 0.9s var(--ease-out-quart),
-    transform 0.9s var(--ease-out-quart),
-    filter 0.9s var(--ease-out-quart);
+@keyframes revealIn {
+  from {
+    opacity: 0;
+    transform: translateY(46px);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
 }
-.reveal.reveal-pending {
-  opacity: 0;
-  transform: translateY(46px);
-  filter: blur(10px);
-  will-change: opacity, transform, filter;
+.reveal {
+  animation: revealIn 0.9s var(--ease-out-quart) both;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .reveal {
+    animation: none;
     opacity: 1;
     transform: none;
     filter: none;
-    transition: none;
   }
   *,
   *::before,
