@@ -1,5 +1,3 @@
-"use client";
-
 import CalButton from "@/components/CalButton";
 import Parallax from "@/components/Parallax";
 import Reveal from "@/components/Reveal";

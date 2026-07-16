@@ -1,13 +1,12 @@
-"use client";
-
 import Image from "next/image";
-import Link from "next/link";
 import CalButton from "@/components/CalButton";
 import Marquee from "@/components/Marquee";
 import MagneticButton from "@/components/MagneticButton";
+import MagneticLink from "@/components/MagneticLink";
 import Parallax from "@/components/Parallax";
 import QuoteRotator from "@/components/QuoteRotator";
 import Reveal from "@/components/Reveal";
+import RevealLink from "@/components/RevealLink";
 import StatCounter from "@/components/StatCounter";
 import TiltCard from "@/components/TiltCard";
 
@@ -150,7 +149,7 @@ export default function HomeView() {
 
           {/* Bento row */}
           <div className="mt-8 flex flex-wrap items-stretch gap-4 text-left">
-            <Reveal as={Link} href="/contact" delay={900} className="min-w-0 flex-1 basis-[220px]">
+            <RevealLink href="/contact" delay={900} className="min-w-0 flex-1 basis-[220px]">
               <TiltCard className="box-border flex h-full min-h-[clamp(160px,40vw,240px)] flex-col justify-between gap-[18px] rounded-[22px] border-[1.5px] border-brand bg-white p-6 text-ink">
                 <div className="text-[13px] font-semibold text-brand-dark">Free · 30 minutes</div>
                 <div>
@@ -160,7 +159,7 @@ export default function HomeView() {
                   </div>
                 </div>
               </TiltCard>
-            </Reveal>
+            </RevealLink>
 
             <Reveal delay={980} className="min-w-0 flex-1 basis-[190px]">
               <TiltCard className="box-border flex h-full min-h-[clamp(160px,40vw,240px)] flex-col justify-between gap-[18px] rounded-[22px] bg-brand p-6">
@@ -231,7 +230,7 @@ export default function HomeView() {
               Every engagement starts with your business goals — not a template. We advise, then we execute.
             </Reveal>
             <Reveal delay={280} className="flex flex-wrap justify-center gap-3.5">
-              <MagneticButton as={Link} href="/services" variant="green" size="md">Explore all services</MagneticButton>
+              <MagneticLink href="/services" variant="green" size="md">Explore all services</MagneticLink>
               <CalButton variant="outline-dark" size="md">Book a call</CalButton>
             </Reveal>
           </div>
@@ -352,7 +351,7 @@ export default function HomeView() {
               </div>
               <TiltCard className="relative min-h-[340px] flex-1 basis-[320px] box-border p-5">
                 <Image
-                  src="/images/case-loansjagat.png"
+                  src="/images/case-loansjagat.webp"
                   alt="LoansJagat — website"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -435,7 +434,7 @@ export default function HomeView() {
               </div>
               <TiltCard className="relative min-h-[340px] flex-1 basis-[320px] box-border p-5">
                 <Image
-                  src="/images/vardhishnu-website.png"
+                  src="/images/vardhishnu-website.webp"
                   alt="Vardhishnu — website"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -599,13 +598,13 @@ export default function HomeView() {
               <Reveal as="p" className="mb-3.5 text-[13px] font-semibold tracking-[.14em] text-brand-dark uppercase">Insights</Reveal>
               <Reveal as="h2" delay={100} className="text-[clamp(30px,4vw,48px)] font-bold tracking-[-.02em]">Notes on design, for founders.</Reveal>
             </div>
-            <Reveal as={Link} href="/insights" delay={150} className="inline-flex items-center gap-2 text-[15px] font-semibold text-ink hover:text-brand-dark">
+            <RevealLink href="/insights" delay={150} className="inline-flex items-center gap-2 text-[15px] font-semibold text-ink hover:text-brand-dark">
               See all articles →
-            </Reveal>
+            </RevealLink>
           </div>
           <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-5">
             {INSIGHTS.map((a, i) => (
-              <Reveal key={a.href} as={Link} href={a.href} delay={i * 100}>
+              <RevealLink key={a.href} href={a.href} delay={i * 100}>
                 <TiltCard
                   as="div"
                   className={`box-border flex flex-col gap-4 rounded-[22px] p-[30px] ${a.dark ? "bg-ink text-canvas" : "bg-canvas text-ink"}`}
@@ -616,7 +615,7 @@ export default function HomeView() {
                   </div>
                   <h3 className="m-0 text-[19px] leading-[1.3] font-semibold tracking-[-.01em]">{a.title}</h3>
                 </TiltCard>
-              </Reveal>
+              </RevealLink>
             ))}
           </div>
         </div>

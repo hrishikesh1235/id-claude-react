@@ -290,21 +290,26 @@ details[open] summary .details-icon {
   margin-bottom: 0;
 }
 
+/*
+ * Visible by default — this is what server-rendered HTML and pre-hydration
+ * paint show, so content is never hidden waiting on JS. `.reveal-pending` is
+ * only ever added by Reveal.tsx's own effect, and only for elements that
+ * were genuinely below the fold at mount.
+ */
 .reveal {
-  opacity: 0;
-  transform: translateY(46px);
-  filter: blur(10px);
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
   transition:
     opacity 0.9s var(--ease-out-quart),
     transform 0.9s var(--ease-out-quart),
     filter 0.9s var(--ease-out-quart);
-  will-change: opacity, transform, filter;
 }
-.reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
-  will-change: auto;
+.reveal.reveal-pending {
+  opacity: 0;
+  transform: translateY(46px);
+  filter: blur(10px);
+  will-change: opacity, transform, filter;
 }
 
 @media (prefers-reduced-motion: reduce) {
