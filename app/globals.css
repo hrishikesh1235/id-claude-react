@@ -193,12 +193,6 @@
  * anchor (e.g. the menu overlay links, the header CTA pill), leaving their
  * text colored like body copy instead of the utility's color.
  */
-:root {
-  /* Fallback for before Header's ResizeObserver measures the actual (possibly
-     2-line, on narrow phones) construction-banner height. */
-  --banner-h: 34px;
-}
-
 @layer base {
   html {
     scroll-behavior: smooth;
